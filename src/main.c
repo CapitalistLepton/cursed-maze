@@ -1,11 +1,8 @@
-#include <ncurses.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include "player.h"
+#include "window.h"
 
 int main() {
-  int rows, cols;
-
   Player *player = malloc(sizeof(Player));
   if (player == NULL) {
     printf("Malloc failed\n");
@@ -14,22 +11,10 @@ int main() {
   player->x = 10;
   player->y = 10;
 
-  initscr();
-  getmaxyx(stdscr, rows, cols);
-  noecho();
-  curs_set(FALSE);
-  addstr("Hello");
-  move(1, 0);
-  printw("%d rows %d cols", rows, cols);
+  init_window();
+  draw(player);
 
-  move(player->y, player->x);
-  addch('@');
-  refresh();
-
-  getch();
-
-  // End ncurses
-  endwin();
+  end_window();
 
   // Free all memory
   free(player);
