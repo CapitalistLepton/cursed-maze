@@ -5,6 +5,7 @@
 int main() {
   int running = 1;
   int c;
+  //FILE *logfile = fopen("log.txt", "w");
 
   Player *player = malloc(sizeof(Player));
   if (player == NULL) {

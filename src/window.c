@@ -6,6 +6,8 @@
 
 #define DELAY 500
 
+int tick = 0;
+
 void init_window() {
   initscr();
   noecho();
@@ -26,6 +28,7 @@ int get_cols() {
 
 void draw(Player *player) {
   clear();
+  //mvprintw(0, 0, "Tick %d", tick++);
   move(player->y, player->x);
   addch('@');
   refresh();
@@ -34,13 +37,16 @@ void draw(Player *player) {
 int wait_for_input() {
   int c;
   clock_t start, recieved;
+
+  flushinp(); // Flush out old getch
   start = clock();
   timeout(DELAY);
   c = getch();
   if (c != ERR) {
     recieved = clock() - start;
-    if (recieved < DELAY)
-      usleep(DELAY);
+    if (recieved < DELAY) {
+      usleep((DELAY - recieved) * 1000);
+    }
     return c;
   } else {
     return -1;
