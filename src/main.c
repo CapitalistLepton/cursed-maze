@@ -3,6 +3,9 @@
 #include "window.h"
 
 int main() {
+  int running = 1;
+  int c;
+
   Player *player = malloc(sizeof(Player));
   if (player == NULL) {
     printf("Malloc failed\n");
@@ -12,8 +15,16 @@ int main() {
   player->y = 10;
 
   init_window();
-  draw(player);
+  while (running) {
+    draw(player);
 
+    c = wait_for_input();
+    if (c == 'q') {
+      running = 0;
+    } else if (c == 'd') {
+      player->x += 1;
+    }
+  }
   end_window();
 
   // Free all memory
