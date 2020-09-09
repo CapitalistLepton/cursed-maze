@@ -6,4 +6,5 @@ typedef struct player_s {
   int y;
 } Player;
 
+void move_player(Player *, int);
 #endif

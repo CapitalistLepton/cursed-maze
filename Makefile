@@ -1,12 +1,12 @@
-CC = gcc
-LIBS = -Wall -lncurses
+CC = gcc -Wall
+LIBS = -lncurses
 SRC = ./src
 BIN = ./bin
-LIST = $(BIN)/main.o $(BIN)/window.o
+LIST = $(BIN)/main.o $(BIN)/window.o $(BIN)/player.o
 
-cursed-maze: $(BIN)/window.o $(SRC)/main.c
-	$(CC) $(SRC)/main.c $(BIN)/window.o -o cursed-maze $(LIBS)
-$(BIN)/window.o: $(SRC)/window.c
-	$(CC) $(SRC)/window.c -c -o $(BIN)/window.o 
+cursed-maze: $(LIST)
+	$(CC) $(LIST) -o cursed-maze $(LIBS)
+$(BIN)/%.o: $(SRC)/%.c
+	$(CC) $< -c -o $@
 clean:
 	rm -f bin/* && rm -f cursed-maze

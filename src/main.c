@@ -22,8 +22,8 @@ int main() {
     c = wait_for_input();
     if (c == 'q') {
       running = 0;
-    } else if (c == 'd') {
-      player->x += 1;
+    } else {
+      move_player(player, c);
     }
   }
   end_window();
