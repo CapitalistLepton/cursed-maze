@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <time.h>
-#include "player.h"
+#include "entity.h"
 #include "window.h"
 
 #define DELAY 500
@@ -26,11 +26,25 @@ int get_cols() {
   return cols;
 }
 
-void draw(Player *player) {
+void draw(World *world) {
+  int i, length;
+  Entity *entity;
+
   clear();
   //mvprintw(0, 0, "Tick %d", tick++);
-  move(player->y, player->x);
-  addch('@');
+  length = world->width * world->height * sizeof(Entity);
+  for (i = 0; i < length; i += sizeof(Entity)) {
+    entity = world->entities + i;
+    if (entity->y != -1 && entity->x != -1) {
+      move(entity->y, entity->x);
+      switch (entity->type) {
+        case PLAYER: addch('@'); break;
+        case WALL: addch('H'); break;
+        case UNINITIALIZED: break;
+	default: fprintf(stderr, "Ent %p has bad type %d\n", entity, entity->type); break;
+      }
+    }
+  }
   refresh();
 }
 

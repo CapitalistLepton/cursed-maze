@@ -2,7 +2,7 @@
 #define CURSED_MAZE_WINDOW
 
 void init_window();
-void draw(Player *);
+void draw(World *);
 int wait_for_input();
 int get_rows();
 int get_cols();

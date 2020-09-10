@@ -1,35 +1,41 @@
 #include <stdlib.h>
-#include "player.h"
+#include "entity.h"
 #include "window.h"
 
 int main() {
   int running = 1;
-  int c;
-  //FILE *logfile = fopen("log.txt", "w");
-
-  Player *player = malloc(sizeof(Player));
-  if (player == NULL) {
-    printf("Malloc failed\n");
-    return -1;
-  }
-  player->x = 10;
-  player->y = 10;
+  int c, rows, cols;
+  World *world;
+  Entity *player;
 
   init_window();
+  cols = get_cols();
+  rows = get_rows();
+  world = new_world(cols, rows);
+  player = new_player(world, 10, 10);
   while (running) {
-    draw(player);
+    draw(world);
 
     c = wait_for_input();
     if (c == 'q') {
       running = 0;
     } else {
-      move_player(player, c);
+      if (c == 'w') {
+        player->y -= 1;
+      } else if (c == 'a') {
+        player->x -= 1;
+      } else if (c == 's') {
+        player->y += 1;
+      } else if (c == 'd') {
+        player->x += 1;
+      }
     }
   }
   end_window();
 
   // Free all memory
-  free(player);
+  free(world->entities);
+  free(world);
 
   return 0;
 }
